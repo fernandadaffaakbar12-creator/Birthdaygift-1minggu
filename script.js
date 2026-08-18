@@ -175,7 +175,7 @@
         const pinPopupClose = document.getElementById('pin-popup-close');
 
         // DEFAULT PIN: Silakan ubah angka ini jika ingin PIN lain
-        const SECRET_PIN = "1225";
+        const SECRET_PIN = "0601";
 
         let pinAttempt = 0;
         let popupTimeout = null;
@@ -766,7 +766,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             canvas.width = 220;
-            canvas.height = Math.round(220 * 2 / 3);
+            canvas.height = Math.round(220 * 4 / 3);
 
             ctx.fillStyle = '#0a0a0a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);

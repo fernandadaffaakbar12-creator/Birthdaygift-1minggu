@@ -760,7 +760,7 @@ body {
     position: relative;
     flex: 0 0 auto;
     width: 220px;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 3 / 4;
     border-radius: 10px;
     border: 2px solid rgba(255, 255, 255, 0.3) !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
