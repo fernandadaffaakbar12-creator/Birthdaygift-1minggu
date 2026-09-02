@@ -175,7 +175,7 @@
         const pinPopupClose = document.getElementById('pin-popup-close');
 
         // DEFAULT PIN: Silakan ubah angka ini jika ingin PIN lain
-        const SECRET_PIN = "0601";
+        const SECRET_PIN = "0309";
 
         let pinAttempt = 0;
         let popupTimeout = null;
@@ -564,12 +564,15 @@ function ketikTeks(elemen, teks) {
         let index = 0;
         elemen.innerHTML = '';
 
+        elemen.classList.add('is-typing');
+
         function ketik() {
             if (index < teks.length) {
                 elemen.innerHTML += teks.charAt(index);
                 index++;
                 setTimeout(ketik, 35);
             } else {
+                elemen.classList.remove('is-typing');
                 elemen.classList.add('typing-done');
                 resolve();
             }
@@ -766,7 +769,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             canvas.width = 220;
-            canvas.height = Math.round(220 * 4 / 3);
+            canvas.height = Math.round(220 * 16 / 9);
 
             ctx.fillStyle = '#0a0a0a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
