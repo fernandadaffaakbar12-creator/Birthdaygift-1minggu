@@ -175,7 +175,7 @@
         const pinPopupClose = document.getElementById('pin-popup-close');
 
         // DEFAULT PIN: Silakan ubah angka ini jika ingin PIN lain
-        const SECRET_PIN = "060425";
+        const SECRET_PIN = "0305";
 
         let pinAttempt = 0;
         let popupTimeout = null;
@@ -281,7 +281,7 @@
 
         if (pinInput) {
             pinInput.addEventListener('input', function () {
-                if (pinInput.value.length === 6) {
+                if (pinInput.value.length === 4) {
                     // Delay sedikit agar digit terakhir terasa diketik
                     setTimeout(() => {
                         if (pinInput.value === SECRET_PIN) {
@@ -372,7 +372,7 @@
 // 1. FUNGSI FOTO MEMBESAR (LIGHTBOX) & PEMUTAR MUSIK
 // ==========================================
 document.addEventListener("DOMContentLoaded", function () {
-    const daftarFoto = document.querySelectorAll('.gallery-scroll img, .polaroid, .planet-card');
+    const daftarFoto = document.querySelectorAll('.gallery-scroll img, .planet-card');
     const modal = document.getElementById('image-modal');
     const modalImg = document.getElementById('modal-img');
     const modalIframe = document.getElementById('modal-iframe'); // Panggil elemen iframe
@@ -421,11 +421,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const teksCaption = customCaption ? customCaption : this.querySelector('.planet-caption').innerText;
                     if (modalCaption) modalCaption.innerText = teksCaption;
                 }
-                // C. JIKA YANG DIKLIK ADALAH POLAROID
-                else if (this.classList.contains('polaroid')) {
-                    modalImg.src = this.querySelector('img').src;
-                    modalImg.style.aspectRatio = "1 / 1";
-                }
+
                 // D. JIKA YANG DIKLIK ADALAH GALERI CINTA
                 else {
                     modalImg.src = this.src;
