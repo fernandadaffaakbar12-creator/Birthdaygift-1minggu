@@ -175,7 +175,7 @@
         const pinPopupClose = document.getElementById('pin-popup-close');
 
         // DEFAULT PIN: Silakan ubah angka ini jika ingin PIN lain
-        const SECRET_PIN = "0305";
+        const SECRET_PIN = "1103";
 
         let pinAttempt = 0;
         let popupTimeout = null;
@@ -1139,7 +1139,7 @@ function tampilkanTahap3() {
 
         setTimeout(() => {
             if (msg) {
-                msg.textContent = 'Semoga apa yang kamu doakan dan inginkan segera terlaksana yaa, Aamiin 🤍';
+                msg.textContent = 'Semoga apa yang kamu doakan dan inginkan segera terlaksana yaa, Astungkara 🤍';
                 msg.className = 'candle-message show-msg final-msg';
             }
         }, 600);
