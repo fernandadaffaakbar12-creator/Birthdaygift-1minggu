@@ -175,7 +175,7 @@
         const pinPopupClose = document.getElementById('pin-popup-close');
 
         // DEFAULT PIN: Silakan ubah angka ini jika ingin PIN lain
-        const SECRET_PIN = "2708";
+        const SECRET_PIN = "1311";
 
         let pinAttempt = 0;
         let popupTimeout = null;
@@ -372,7 +372,7 @@
 // 1. FUNGSI FOTO MEMBESAR (LIGHTBOX) & PEMUTAR MUSIK
 // ==========================================
 document.addEventListener("DOMContentLoaded", function () {
-    const daftarFoto = document.querySelectorAll('.gallery-scroll img, .planet-card');
+    const daftarFoto = document.querySelectorAll('.gallery-scroll img, .planet-card, .polaroid-card');
     const modal = document.getElementById('image-modal');
     const modalImg = document.getElementById('modal-img');
     const modalIframe = document.getElementById('modal-iframe'); // Panggil elemen iframe
@@ -393,15 +393,22 @@ document.addEventListener("DOMContentLoaded", function () {
                     modalImg.style.display = 'none'; // Sembunyikan foto
                     modalIframe.style.display = 'block'; // Tampilkan alat musik/video
 
-                    const embedUrl = this.getAttribute('data-embed');
+                    let embedUrl = this.getAttribute('data-embed') || '';
+                    if (embedUrl.startsWith('//')) {
+                        embedUrl = 'https:' + embedUrl;
+                    } else if (embedUrl && !embedUrl.startsWith('http://') && !embedUrl.startsWith('https://')) {
+                        embedUrl = 'https://' + embedUrl;
+                    }
                     modalIframe.src = embedUrl; // Masukkan link
 
                     // Hapus class lama
-                    modalIframe.classList.remove('iframe-spotify', 'iframe-youtube', 'iframe-facebook');
+                    modalIframe.classList.remove('iframe-spotify', 'iframe-youtube', 'iframe-facebook', 'iframe-bilibili');
 
-                    // Deteksi platform untuk penyesuaian rasio (16:9 untuk YouTube, Kotak untuk Spotify, 9:16 untuk Facebook)
+                    // Deteksi platform untuk penyesuaian rasio (16:9 untuk YouTube & Bilibili, Kotak untuk Spotify, 9:16 untuk Facebook)
                     if (embedUrl.includes('youtube.com') || embedUrl.includes('youtu.be')) {
                         modalIframe.classList.add('iframe-youtube');
+                    } else if (embedUrl.includes('bilibili.com')) {
+                        modalIframe.classList.add('iframe-bilibili');
                     } else if (embedUrl.includes('spotify.com')) {
                         modalIframe.classList.add('iframe-spotify');
                     } else if (embedUrl.includes('facebook.com')) {
@@ -421,7 +428,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     const teksCaption = customCaption ? customCaption : this.querySelector('.planet-caption').innerText;
                     if (modalCaption) modalCaption.innerText = teksCaption;
                 }
+                // C. JIKA YANG DIKLIK ADALAH POLAROID
+                else if (this.classList.contains('polaroid-card') || this.classList.contains('polaroid')) {
+                    const imgEl = this.querySelector('img');
+                    modalImg.src = imgEl ? imgEl.src : this.src;
+                    modalImg.style.aspectRatio = "3 / 4";
 
+                    const captionEl = this.querySelector('.polaroid-caption');
+                    const customCaption = this.getAttribute('data-caption');
+                    const teksCaption = customCaption ? customCaption : (captionEl ? captionEl.innerText : "");
+                    if (modalCaption) modalCaption.innerText = teksCaption;
+                }
                 // D. JIKA YANG DIKLIK ADALAH GALERI CINTA
                 else {
                     modalImg.src = this.src;

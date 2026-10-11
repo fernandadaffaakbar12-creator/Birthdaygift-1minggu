@@ -546,21 +546,25 @@ body {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-/* Jarak Orbit disesuaikan untuk 4 kartu agar lebih renggang */
+/* Jarak Orbit untuk 5 kartu (72 derajat) */
 .item1 {
-    transform: rotateY(0deg) translateZ(180px);
+    transform: rotateY(0deg) translateZ(200px);
 }
 
 .item2 {
-    transform: rotateY(90deg) translateZ(180px);
+    transform: rotateY(72deg) translateZ(200px);
 }
 
 .item3 {
-    transform: rotateY(180deg) translateZ(180px);
+    transform: rotateY(144deg) translateZ(200px);
 }
 
 .item4 {
-    transform: rotateY(270deg) translateZ(180px);
+    transform: rotateY(216deg) translateZ(200px);
+}
+
+.item5 {
+    transform: rotateY(288deg) translateZ(200px);
 }
 
 /* =========================================
@@ -616,8 +620,9 @@ body {
     height: 152px;
 }
 
-/* Rasio khusus untuk YouTube (16:9 Landscape) */
-#modal-iframe.iframe-youtube {
+/* Rasio khusus untuk YouTube & Bilibili (16:9 Landscape) */
+#modal-iframe.iframe-youtube,
+#modal-iframe.iframe-bilibili {
     width: 90vw;
     max-width: 650px;
     aspect-ratio: 16 / 9;
@@ -992,21 +997,25 @@ body {
         font-size: 0.95rem;
     }
 
-    /* Menyesuaikan jarak orbit di HP untuk 4 kartu */
+    /* Menyesuaikan jarak orbit di HP untuk 5 kartu */
     .item1 {
-        transform: rotateY(0deg) translateZ(150px);
+        transform: rotateY(0deg) translateZ(160px);
     }
 
     .item2 {
-        transform: rotateY(90deg) translateZ(150px);
+        transform: rotateY(72deg) translateZ(160px);
     }
 
     .item3 {
-        transform: rotateY(180deg) translateZ(150px);
+        transform: rotateY(144deg) translateZ(160px);
     }
 
     .item4 {
-        transform: rotateY(270deg) translateZ(150px);
+        transform: rotateY(216deg) translateZ(160px);
+    }
+
+    .item5 {
+        transform: rotateY(288deg) translateZ(160px);
     }
 
     #main-content {
