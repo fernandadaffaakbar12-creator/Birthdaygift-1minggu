@@ -3,7 +3,7 @@
 // ==========================================
 (function () {
     const PARTICLE_COUNT = 80;
-    const LOVE_TEXTS = ['I love you', 'i love u', 'love', 'ily', '♡', 'luv u', 'sayang', 'cinta'];
+    const LOVE_TEXTS = ['happy', 'birthday', 'wish', 'you', '♡', 'all', 'the best', 'icol'];
 
     // Parametric heart shape formula
     function heartX(t) {
@@ -175,7 +175,7 @@
         const pinPopupClose = document.getElementById('pin-popup-close');
 
         // DEFAULT PIN: Silakan ubah angka ini jika ingin PIN lain
-        const SECRET_PIN = "1103";
+        const SECRET_PIN = "1411";
 
         let pinAttempt = 0;
         let popupTimeout = null;
@@ -186,7 +186,7 @@
                 // Percobaan pertama: tampilkan foto kucing
                 showCat: true,
                 emoji: '',
-                message: 'Masa tanggal spesial kita lupa?',
+                message: 'Masa tanggal special kita lupa?',
                 buttonText: 'Iya iya maaf 😭'
             },
             {
@@ -287,7 +287,7 @@
                         if (pinInput.value === SECRET_PIN) {
                             // PIN BENAR
                             showPinPopup({
-                                message: 'Valid!\nLanjut ya sayang~',
+                                message: 'Valid!\nLanjut yaa~',
                                 buttonText: 'Lanjut 💕'
                             }, true);
 
@@ -372,7 +372,7 @@
 // 1. FUNGSI FOTO MEMBESAR (LIGHTBOX) & PEMUTAR MUSIK
 // ==========================================
 document.addEventListener("DOMContentLoaded", function () {
-    const daftarFoto = document.querySelectorAll('.gallery-scroll img, .planet-card');
+    const daftarFoto = document.querySelectorAll('.planet-card, .polaroid-card');
     const modal = document.getElementById('image-modal');
     const modalImg = document.getElementById('modal-img');
     const modalIframe = document.getElementById('modal-iframe'); // Panggil elemen iframe
@@ -397,12 +397,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     modalIframe.src = embedUrl; // Masukkan link
 
                     // Hapus class lama
-                    modalIframe.classList.remove('iframe-spotify', 'iframe-youtube', 'iframe-facebook');
+                    modalIframe.classList.remove('iframe-spotify', 'iframe-facebook');
 
-                    // Deteksi platform untuk penyesuaian rasio (16:9 untuk YouTube, Kotak untuk Spotify, 9:16 untuk Facebook)
-                    if (embedUrl.includes('youtube.com') || embedUrl.includes('youtu.be')) {
-                        modalIframe.classList.add('iframe-youtube');
-                    } else if (embedUrl.includes('spotify.com')) {
+                    // Deteksi platform untuk penyesuaian rasio
+                    if (embedUrl.includes('spotify.com')) {
                         modalIframe.classList.add('iframe-spotify');
                     } else if (embedUrl.includes('facebook.com')) {
                         modalIframe.classList.add('iframe-facebook');
@@ -421,11 +419,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     const teksCaption = customCaption ? customCaption : this.querySelector('.planet-caption').innerText;
                     if (modalCaption) modalCaption.innerText = teksCaption;
                 }
+                // C. JIKA YANG DIKLIK ADALAH KARTU POLAROID
+                else if (this.classList.contains('polaroid-card')) {
+                    modalImg.src = this.querySelector('img').src;
+                    modalImg.style.aspectRatio = "3 / 4";
 
-                // D. JIKA YANG DIKLIK ADALAH GALERI CINTA
-                else {
-                    modalImg.src = this.src;
-                    modalImg.style.aspectRatio = "9 / 16";
+                    const captionEl = this.querySelector('.polaroid-caption');
+                    if (modalCaption && captionEl) modalCaption.innerText = captionEl.innerText;
                 }
 
                 modal.classList.add('show-modal');
@@ -647,201 +647,6 @@ function showMusicPopup() {
     // Pasang ulang ke window agar onclick di HTML tetap berfungsi
     window.showMusicPopup = showMusicPopup;
 })();
-
-// ==========================================
-// SCRATCH CARD (ERASER EFFECT) + GALLERY UNLOCK LOGIC
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    const canvases = document.querySelectorAll('.scratch-canvas');
-    const galleryScroll = document.querySelector('.gallery-scroll');
-    const galleryHint = document.getElementById('gallery-hint');
-    const gallerySlider = document.getElementById('gallery-slider');
-    const gallerySliderThumb = document.getElementById('gallery-slider-thumb');
-
-    const totalCanvases = canvases.length;
-    const clearedSet = new Set();
-    let galleryUnlocked = false;
-
-    function updateSlider() {
-        if (!gallerySliderThumb || !galleryScroll) return;
-        const maxScroll = galleryScroll.scrollWidth - galleryScroll.clientWidth;
-        if (maxScroll > 0) {
-            const scrollPercent = galleryScroll.scrollLeft / maxScroll;
-            const trackWidth = gallerySliderThumb.parentElement.clientWidth;
-            const thumbWidth = gallerySliderThumb.clientWidth;
-            const maxLeft = trackWidth - thumbWidth;
-            gallerySliderThumb.style.left = (scrollPercent * maxLeft) + 'px';
-        }
-    }
-
-    function scrollToCard(cardIndex) {
-        if (!galleryScroll) return;
-        const cards = galleryScroll.querySelectorAll('.scratch-card');
-        if (cardIndex < cards.length) {
-            const card = cards[cardIndex];
-            // Hitung posisi scroll secara manual agar card berada di tengah container
-            // Ini menghindari scrollIntoView yang bisa menggeser seluruh halaman di HP
-            const containerWidth = galleryScroll.clientWidth;
-            const cardLeft = card.offsetLeft;
-            const cardWidth = card.offsetWidth;
-            const targetScroll = cardLeft - (containerWidth / 2) + (cardWidth / 2);
-
-            // Sementara aktifkan scroll agar bisa geser
-            galleryScroll.style.overflowX = 'auto';
-            galleryScroll.scrollTo({ left: targetScroll, behavior: 'smooth' });
-            // Kunci lagi setelah scroll selesai
-            setTimeout(() => {
-                if (!galleryUnlocked) {
-                    galleryScroll.style.overflowX = 'hidden';
-                }
-                updateSlider();
-            }, 600);
-        }
-    }
-
-    // Tampilkan slider dari awal
-    if (gallerySlider) {
-        gallerySlider.classList.add('slider-visible');
-    }
-
-    function checkCanvasCleared(canvas, index) {
-        if (clearedSet.has(index)) return;
-
-        const ctx = canvas.getContext('2d');
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const pixels = imageData.data;
-        let transparentCount = 0;
-        let sampledCount = 0;
-
-        for (let i = 3; i < pixels.length; i += 8) {
-            sampledCount++;
-            if (pixels[i] === 0) transparentCount++;
-        }
-
-        const ratio = transparentCount / sampledCount;
-        if (ratio > 0.45) {
-            clearedSet.add(index);
-            // Fade out sisa canvas
-            canvas.style.transition = 'opacity 0.5s ease';
-            canvas.style.opacity = '0';
-            setTimeout(() => {
-                canvas.style.pointerEvents = 'none';
-            }, 500);
-
-            // Update hint
-            if (galleryHint) {
-                galleryHint.textContent = '✨ Foto ' + clearedSet.size + ' dari ' + totalCanvases + ' terbuka ✨';
-            }
-
-            // Cek apakah semua sudah dibersihkan
-            if (clearedSet.size >= totalCanvases) {
-                // Semua selesai — unlock untuk geser bebas
-                galleryUnlocked = true;
-                if (galleryScroll) {
-                    galleryScroll.classList.add('gallery-unlocked');
-                    galleryScroll.style.overflowX = 'auto';
-                    galleryScroll.style.touchAction = 'pan-x pan-y';
-                    // Sync slider saat scroll bebas
-                    galleryScroll.addEventListener('scroll', updateSlider);
-                }
-                if (galleryHint) {
-                    galleryHint.textContent = 'Semua foto sudah terbuka! Geser kesamping untuk melihatnya';
-                    galleryHint.classList.add('hint-unlocked');
-                }
-            } else {
-                // Auto-scroll ke foto berikutnya
-                setTimeout(() => {
-                    scrollToCard(index + 1);
-                }, 700);
-            }
-        }
-    }
-
-    canvases.forEach((canvas, index) => {
-        const ctx = canvas.getContext('2d');
-        let isDrawing = false;
-        let brushRadius = 25;
-        let drawMoveCount = 0;
-
-        setTimeout(() => {
-            canvas.width = 220;
-            canvas.height = Math.round(220 * 16 / 9);
-
-            ctx.fillStyle = '#0a0a0a';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < 200; i++) {
-                ctx.beginPath();
-                ctx.arc(
-                    Math.random() * canvas.width,
-                    Math.random() * canvas.height,
-                    Math.random() * 1.5,
-                    0, Math.PI * 2
-                );
-                ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.8)' : 'rgba(255,182,193,0.8)';
-                ctx.fill();
-            }
-
-            ctx.globalCompositeOperation = 'destination-out';
-
-            const startPosition = (e) => {
-                isDrawing = true;
-                drawMoveCount = 0;
-                draw(e);
-            };
-
-            const endPosition = () => {
-                isDrawing = false;
-                ctx.beginPath();
-                // Cek setiap kali selesai menggosok
-                checkCanvasCleared(canvas, index);
-            };
-
-            const draw = (e) => {
-                if (!isDrawing) return;
-
-                let clientX, clientY;
-                if (e.type.includes('touch')) {
-                    clientX = e.touches[0].clientX;
-                    clientY = e.touches[0].clientY;
-                } else {
-                    clientX = e.clientX;
-                    clientY = e.clientY;
-                }
-
-                const canvasRect = canvas.getBoundingClientRect();
-                const x = clientX - canvasRect.left;
-                const y = clientY - canvasRect.top;
-
-                ctx.lineWidth = brushRadius * 2;
-                ctx.lineCap = 'round';
-                ctx.lineTo(x, y);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(x, y);
-
-                // Juga cek selama menggosok setiap 15 gerakan
-                drawMoveCount++;
-                if (drawMoveCount % 15 === 0) {
-                    checkCanvasCleared(canvas, index);
-                }
-            };
-
-            canvas.addEventListener('mousedown', startPosition);
-            canvas.addEventListener('mouseup', endPosition);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseleave', endPosition);
-
-            canvas.addEventListener('touchstart', startPosition, { passive: true });
-            canvas.addEventListener('touchend', endPosition);
-            canvas.addEventListener('touchmove', (e) => {
-                if (isDrawing) e.preventDefault();
-                draw(e);
-            }, { passive: false });
-
-        }, 500);
-    });
-});
 
 // ==========================================
 // FITUR TIUP LILIN 🎂 (Press & Hold)

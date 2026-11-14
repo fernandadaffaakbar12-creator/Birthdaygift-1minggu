@@ -546,21 +546,17 @@ body {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-/* Jarak Orbit disesuaikan untuk 4 kartu agar lebih renggang */
+/* Jarak Orbit disesuaikan untuk 3 kartu (120 derajat) agar saling berdekatan namun tidak terlalu rapat */
 .item1 {
-    transform: rotateY(0deg) translateZ(180px);
+    transform: rotateY(0deg) translateZ(150px);
 }
 
 .item2 {
-    transform: rotateY(90deg) translateZ(180px);
+    transform: rotateY(120deg) translateZ(150px);
 }
 
 .item3 {
-    transform: rotateY(180deg) translateZ(180px);
-}
-
-.item4 {
-    transform: rotateY(270deg) translateZ(180px);
+    transform: rotateY(240deg) translateZ(150px);
 }
 
 /* =========================================
@@ -592,8 +588,10 @@ body {
 }
 
 #modal-img {
-    max-width: 90vw;
+    width: min(85vw, 360px);
     max-height: 75vh;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
     border-radius: 15px;
     box-shadow: 0 10px 50px rgba(255, 182, 193, 0.5);
     transform: scale(0.7);
@@ -614,15 +612,6 @@ body {
     width: 90vw;
     max-width: 350px;
     height: 152px;
-}
-
-/* Rasio khusus untuk YouTube (16:9 Landscape) */
-#modal-iframe.iframe-youtube {
-    width: 90vw;
-    max-width: 650px;
-    aspect-ratio: 16 / 9;
-    height: auto;
-    /* Tinggi otomatis menyesuaikan aspect ratio */
 }
 
 /* Rasio khusus untuk Facebook (9:16 Portrait untuk Reels) */
@@ -678,166 +667,6 @@ body {
 .photo-panel h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-}
-
-/* =========================================
-   GALERI SCROLL KE SAMPING 9:16 (Slide 4)
-========================================= */
-.gallery-scroll {
-    display: flex;
-    gap: 15px;
-    overflow-x: hidden;
-    padding: 20px 10px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    /* Firefox */
-    touch-action: pan-y;
-}
-
-.gallery-scroll.gallery-unlocked {
-    overflow-x: auto;
-    touch-action: pan-x pan-y;
-}
-
-.gallery-scroll::-webkit-scrollbar {
-    display: none;
-    /* Chrome/Safari */
-}
-
-/* Hint text */
-.gallery-hint {
-    font-size: 0.85rem;
-    color: rgba(255, 182, 193, 0.8);
-    text-align: center;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    animation: blink 2s infinite;
-    transition: color 0.5s ease;
-}
-
-.gallery-hint.hint-unlocked {
-    color: rgba(180, 255, 200, 0.9);
-    animation: none;
-    font-size: 0.7rem;
-}
-
-/* Slider */
-.gallery-slider {
-    width: 60%;
-    max-width: 300px;
-    margin: 8px auto 0 auto;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-}
-
-.gallery-slider.slider-visible {
-    opacity: 1;
-}
-
-.gallery-slider-track {
-    width: 100%;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-}
-
-.gallery-slider-thumb {
-    width: 30%;
-    height: 100%;
-    background: linear-gradient(90deg, #ffb6c1, #ff7eb3);
-    border-radius: 4px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    transition: left 0.1s ease-out;
-    box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
-}
-
-.scratch-card {
-    position: relative;
-    flex: 0 0 auto;
-    width: 220px;
-    aspect-ratio: 9 / 16;
-    border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.3) !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
-    cursor: pointer;
-    scroll-snap-align: center;
-    animation: float-photo 4s ease-in-out infinite;
-    overflow: hidden;
-}
-
-.scratch-card:nth-child(even) {
-    animation-delay: 1s;
-    animation-duration: 5s;
-}
-
-.scratch-card:hover {
-    border-color: #ffffff !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7) !important;
-}
-
-.scratch-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
-}
-
-.scratch-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    cursor: pointer;
-    touch-action: none;
-}
-
-
-
-/* =========================================
-   DESAIN LAYAR FOTO MEMBESAR (LIGHTBOX)
-========================================= */
-#image-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-
-#image-modal.show-modal {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-#modal-img {
-    max-width: 90vw;
-    max-height: 90vh;
-    border-radius: 15px;
-    box-shadow: 0 10px 50px rgba(255, 182, 193, 0.5);
-    transform: scale(0.7);
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-#image-modal.show-modal #modal-img {
-    transform: scale(1);
 }
 
 /* =========================================
@@ -992,21 +821,17 @@ body {
         font-size: 0.95rem;
     }
 
-    /* Menyesuaikan jarak orbit di HP untuk 4 kartu */
+    /* Menyesuaikan jarak orbit di HP untuk 3 kartu */
     .item1 {
-        transform: rotateY(0deg) translateZ(150px);
+        transform: rotateY(0deg) translateZ(125px);
     }
 
     .item2 {
-        transform: rotateY(90deg) translateZ(150px);
+        transform: rotateY(120deg) translateZ(125px);
     }
 
     .item3 {
-        transform: rotateY(180deg) translateZ(150px);
-    }
-
-    .item4 {
-        transform: rotateY(270deg) translateZ(150px);
+        transform: rotateY(240deg) translateZ(125px);
     }
 
     #main-content {
